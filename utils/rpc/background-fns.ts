@@ -297,6 +297,7 @@ const streamObjectFromSchema = async <S extends SchemaName>(options: Pick<Genera
     catch (err) {
       logger.error(err)
       port.postMessage({ type: 'error', error: normalizeError(err) })
+      port.disconnect()
     }
   }
   preparePortConnection(portName).then(onStart)
