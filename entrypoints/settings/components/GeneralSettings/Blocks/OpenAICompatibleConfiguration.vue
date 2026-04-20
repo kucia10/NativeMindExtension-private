@@ -88,7 +88,20 @@ const { value: numCtx, guardedValue: guardedNumCtx, errorMessage: numCtxError } 
   }
 })
 const enableNumCtx = userConfig.llm.backends.openaiCompatible.enableNumCtx.toRef()
-const visionEnabled = userConfig.llm.backends.openaiCompatible.vision.toRef()
+const visionConfig = userConfig.llm.backends.openaiCompatible.vision
+const visionEnabled = computed({
+  get: () => !!visionConfig.get()?.[modelName.value],
+  set: (v: boolean) => {
+    const map = { ...visionConfig.get() }
+    if (v) {
+      map[modelName.value] = true
+    }
+    else {
+      delete map[modelName.value]
+    }
+    visionConfig.set(map)
+  },
+})
 
 const setupOpenAICompatible = async () => {
   endpointType.value = 'openai-compatible'
@@ -368,7 +381,7 @@ onMounted(async () => {
             </div>
           </Section>
           <Section
-            v-if="endpointType !== 'web-llm'"
+            v-if="endpointType !== 'web-llm' && modelName"
             class="w-full"
           >
             <template #title>

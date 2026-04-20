@@ -349,6 +349,9 @@
     "tools": {
       "online_search": {
         "title": "Search"
+      },
+      "vision": {
+        "title": "Vision"
       }
     }
   },

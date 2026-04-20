@@ -102,6 +102,7 @@
               <ThinkingEffortSelector v-if="showReasoningEffortSelector" />
               <ThinkingModeSwitch v-else />
               <OnlineSearchSwitch />
+              <VisionSwitch />
             </div>
             <div class="flex gap-2 flex-row">
               <CameraButton
@@ -171,6 +172,7 @@ import MessageUser from './Messages/User.vue'
 import OnlineSearchSwitch from './OnlineSearchSwitch.vue'
 import ThinkingEffortSelector from './ThinkingEffortSelector.vue'
 import ThinkingModeSwitch from './ThinkingModeSwitch.vue'
+import VisionSwitch from './VisionSwitch.vue'
 
 const inputContainerRef = ref<HTMLDivElement>()
 const sendButtonContainerRef = ref<HTMLDivElement>()

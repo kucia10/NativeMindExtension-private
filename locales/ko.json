@@ -87,6 +87,9 @@
     "tools": {
       "online_search": {
         "title": "검색"
+      },
+      "vision": {
+        "title": "비전"
       }
     },
     "camera": {
