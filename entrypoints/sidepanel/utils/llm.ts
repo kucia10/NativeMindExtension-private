@@ -52,7 +52,8 @@ export async function* streamTextInBackground(options: Parameters<typeof s2bRpc.
 export async function* streamObjectInBackground(options: Parameters<typeof s2bRpc.streamObjectFromSchema>[0] & ExtraOptions) {
   const { abortSignal, timeout = DEFAULT_PENDING_TIMEOUT, ...restOptions } = options
   const userConfig = await getUserConfig()
-  const modelId = userConfig.llm.model.get()
+  const modelId = restOptions.modelId ?? userConfig.llm.model.get()
+  const endpointType = (restOptions.endpointType as LLMEndpointType | undefined) ?? userConfig.llm.endpointType.get()
   const reasoningPreference = userConfig.llm.reasoning.get()
   const computedReasoning = restOptions.autoThinking
     ? restOptions.reasoning
@@ -60,6 +61,8 @@ export async function* streamObjectInBackground(options: Parameters<typeof s2bRp
   const requestOptions = {
     ...restOptions,
     ...(computedReasoning !== undefined ? { reasoning: computedReasoning } : {}),
+    modelId,
+    endpointType,
   }
   const { portName } = await s2bRpc.streamObjectFromSchema(requestOptions)
   const aliveKeeper = new BackgroundAliveKeeper()
@@ -77,7 +80,8 @@ export async function generateObjectInBackground<S extends SchemaName>(options: 
   const { promise: abortPromise, reject } = Promise.withResolvers<Awaited<ReturnType<typeof s2bRpc.generateObjectFromSchema<S>>>>()
   const { abortSignal, timeout = DEFAULT_PENDING_TIMEOUT, ...restOptions } = options
   const userConfig = await getUserConfig()
-  const modelId = userConfig.llm.model.get()
+  const modelId = restOptions.modelId ?? userConfig.llm.model.get()
+  const endpointType = (restOptions.endpointType as LLMEndpointType | undefined) ?? userConfig.llm.endpointType.get()
   const reasoningPreference = userConfig.llm.reasoning.get()
   const computedReasoning = restOptions.autoThinking
     ? restOptions.reasoning
@@ -85,6 +89,8 @@ export async function generateObjectInBackground<S extends SchemaName>(options: 
   const requestOptions = {
     ...restOptions,
     ...(computedReasoning !== undefined ? { reasoning: computedReasoning } : {}),
+    modelId,
+    endpointType,
   }
   const aliveKeeper = new BackgroundAliveKeeper()
   abortSignal?.addEventListener('abort', () => {

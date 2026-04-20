@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { readPortMessageIntoIterator, toAsyncIter } from '@/utils/async'
 import { AbortError, fromError, ModelRequestTimeoutError } from '@/utils/error'
 import { BackgroundAliveKeeper } from '@/utils/keepalive'
+import type { LLMEndpointType } from '@/utils/llm/models'
 import { SchemaName, Schemas } from '@/utils/llm/output-schema'
 import { getReasoningOptionForModel } from '@/utils/llm/reasoning'
 import { WebLLMSupportedModel } from '@/utils/llm/web-llm'
@@ -26,7 +27,8 @@ export async function* streamTextInBackground(options: Parameters<typeof c2bRpc.
   const userConfig = await getUserConfig()
   const defaultFirstTokenTimeout = userConfig.llm.defaultFirstTokenTimeout.get()
   const { abortSignal, timeout = defaultFirstTokenTimeout, ...restOptions } = options
-  const modelId = userConfig.llm.model.get()
+  const modelId = restOptions.modelId ?? userConfig.llm.model.get()
+  const endpointType = restOptions.endpointType ?? userConfig.llm.endpointType.get() as LLMEndpointType
   const reasoningPreference = userConfig.llm.reasoning.get()
   const computedReasoning = restOptions.autoThinking
     ? restOptions.reasoning
@@ -34,6 +36,8 @@ export async function* streamTextInBackground(options: Parameters<typeof c2bRpc.
   const requestOptions = {
     ...restOptions,
     ...(computedReasoning !== undefined ? { reasoning: computedReasoning } : {}),
+    modelId,
+    endpointType,
   }
   const { portName } = await c2bRpc.streamText(requestOptions)
   const aliveKeeper = new BackgroundAliveKeeper()
@@ -50,7 +54,8 @@ export async function* streamObjectInBackground<S extends SchemaName>(options: P
   const userConfig = await getUserConfig()
   const defaultFirstTokenTimeout = userConfig.llm.defaultFirstTokenTimeout.get()
   const { abortSignal, timeout = defaultFirstTokenTimeout, ...restOptions } = options
-  const modelId = userConfig.llm.model.get()
+  const modelId = restOptions.modelId ?? userConfig.llm.model.get()
+  const endpointType = restOptions.endpointType ?? userConfig.llm.endpointType.get() as LLMEndpointType
   const reasoningPreference = userConfig.llm.reasoning.get()
   const computedReasoning = restOptions.autoThinking
     ? restOptions.reasoning
@@ -58,6 +63,8 @@ export async function* streamObjectInBackground<S extends SchemaName>(options: P
   const requestOptions = {
     ...restOptions,
     ...(computedReasoning !== undefined ? { reasoning: computedReasoning } : {}),
+    modelId,
+    endpointType,
   }
   const { portName } = await c2bRpc.streamObjectFromSchema(requestOptions)
   const aliveKeeper = new BackgroundAliveKeeper()

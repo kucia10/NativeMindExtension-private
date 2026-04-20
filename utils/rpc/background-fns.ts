@@ -236,8 +236,9 @@ const streamObjectFromSchema = async <S extends SchemaName>(options: Pick<Genera
       abortController.abort()
     })
     try {
-      const model = await getModel({ ...(await getModelUserConfig({ model: options.modelId, endpointType: options.endpointType })), onLoadingModel: makeLoadingModelListener(port), ...generateExtraModelOptions(options) })
-      if (MODELS_NOT_SUPPORTED_FOR_STRUCTURED_OUTPUT.some((pattern) => pattern.test(model.modelId))) {
+      const modelUserConfig = await getModelUserConfig({ model: options.modelId, endpointType: options.endpointType })
+      const model = await getModel({ ...modelUserConfig, onLoadingModel: makeLoadingModelListener(port), ...generateExtraModelOptions(options) })
+      if (modelUserConfig.endpointType === 'openai-compatible' || MODELS_NOT_SUPPORTED_FOR_STRUCTURED_OUTPUT.some((pattern) => pattern.test(model.modelId))) {
         const schema = parseSchema(options)
         const s = zodSchema(schema)
         const injectSchemaToSystemPrompt = (prompt?: string) => {
@@ -308,7 +309,7 @@ export const generateObjectFromSchema = async <S extends SchemaName>(options: Pi
   let ret
   try {
     const modelInfo = { ...(await getModelUserConfig({ model: options.modelId, endpointType: options.endpointType })), ...generateExtraModelOptions(options) }
-    if (MODELS_NOT_SUPPORTED_FOR_STRUCTURED_OUTPUT.some((pattern) => pattern.test(modelInfo.model))) {
+    if (modelInfo.endpointType === 'openai-compatible' || MODELS_NOT_SUPPORTED_FOR_STRUCTURED_OUTPUT.some((pattern) => pattern.test(modelInfo.model))) {
       const jsonSchema = zodSchema(s).jsonSchema
       const injectSchemaToSystemPrompt = (prompt?: string) => {
         if (!prompt) return undefined
