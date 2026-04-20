@@ -176,7 +176,7 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
   })
 
   const modelListUpdating = computed(() => {
-    return ollamaModelListUpdating.value || lmStudioModelListUpdating.value
+    return ollamaModelListUpdating.value || lmStudioModelListUpdating.value || openaiCompatibleModelListLoading.value
   })
 
   // this function has side effects: it may change the common model in user config
@@ -226,10 +226,10 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
 
   const updateModelList = async () => {
     logger.debug('Updating model list...')
-    // Always update both Ollama and LMStudio backends so users can see
+    // Always update all backends so users can see
     // all available models when switching between backends in ModelSelector
     // WebLLM doesn't need updating as it uses static SUPPORTED_MODELS
-    await Promise.allSettled([updateOllamaModelList(), updateLMStudioModelList()])
+    await Promise.allSettled([updateOllamaModelList(), updateLMStudioModelList(), updateOpenAICompatibleModelList()])
     return modelList.value
   }
 

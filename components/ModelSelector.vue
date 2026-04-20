@@ -175,6 +175,7 @@ defineExpose({
 const userConfig = await getUserConfig()
 const ollamaBaseUrl = userConfig.llm.backends.ollama.baseUrl.toRef()
 const lmStudioBaseUrl = userConfig.llm.backends.lmStudio.baseUrl.toRef()
+const openaiCompatibleBaseUrl = userConfig.llm.backends.openaiCompatible.baseUrl.toRef()
 const commonModel = userConfig.llm.model.toRef()
 const translationModel = userConfig.translation.model.toRef()
 const endpointType = userConfig.llm.endpointType.toRef()
@@ -298,7 +299,7 @@ watch([endpointType, selectedModel], async (newVal) => {
   updateModelList()
 })
 
-watch([ollamaBaseUrl, lmStudioBaseUrl], async () => updateModelList())
+watch([ollamaBaseUrl, lmStudioBaseUrl, openaiCompatibleBaseUrl], async () => updateModelList())
 
 onMounted(() => {
   updateModelList()
