@@ -281,8 +281,7 @@ onMounted(async () => {
                 v-model="selectedModelId"
                 :options="modelOptions"
                 :placeholder="t('settings.openai_compatible.model_name')"
-                dropdownAlign="stretch"
-                class="w-full"
+                class="w-fit"
               />
               <Input
                 v-else
