@@ -88,6 +88,7 @@ const { value: numCtx, guardedValue: guardedNumCtx, errorMessage: numCtxError } 
   }
 })
 const enableNumCtx = userConfig.llm.backends.openaiCompatible.enableNumCtx.toRef()
+const visionEnabled = userConfig.llm.backends.openaiCompatible.vision.toRef()
 
 const setupOpenAICompatible = async () => {
   endpointType.value = 'openai-compatible'
@@ -364,6 +365,41 @@ onMounted(async () => {
                 class="text-xs"
                 :message="numCtxError"
               />
+            </div>
+          </Section>
+          <Section
+            v-if="endpointType !== 'web-llm'"
+            class="w-full"
+          >
+            <template #title>
+              <Text
+                class="font-medium text-sm"
+                display="block"
+              >
+                {{ t('settings.openai_compatible.vision_support') }}
+              </Text>
+            </template>
+            <div class="flex flex-col gap-1">
+              <div class="flex gap-2 items-center">
+                <Checkbox v-model="visionEnabled">
+                  <template #label>
+                    <Text
+                      class="font-medium text-xs"
+                      display="block"
+                    >
+                      {{ t('settings.openai_compatible.vision_support') }}
+                    </Text>
+                  </template>
+                </Checkbox>
+              </div>
+              <Text
+                color="secondary"
+                size="xs"
+                display="block"
+              >
+                {{ t('settings.openai_compatible.vision_support_desc') }}
+              </Text>
+              <SavedMessage :watch="visionEnabled" />
             </div>
           </Section>
           <Text

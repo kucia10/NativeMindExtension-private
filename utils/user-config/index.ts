@@ -124,6 +124,7 @@ export async function _getUserConfig() {
           enableNumCtx: await new Config('llm.backends.openaiCompatible.enableNumCtx').default(enableNumCtx).build(),
           baseUrl: await new Config('llm.backends.openaiCompatible.baseUrl').default('').build(),
           apiKey: await new Config('llm.backends.openaiCompatible.apiKey').default('').build(),
+          vision: await new Config('llm.backends.openaiCompatible.vision').default(false).build(),
         },
       },
     },

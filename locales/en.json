@@ -250,7 +250,9 @@
       "api_key_desc": "API key for the server (leave empty if not required)",
       "model_name": "Model",
       "model_name_desc": "Select a model from the list or enter a model name manually",
-      "model_name_refresh_hint": "Click refresh to load available models"
+      "model_name_refresh_hint": "Click refresh to load available models",
+      "vision_support": "Vision Support",
+      "vision_support_desc": "Enable if this model supports image understanding (vision) capabilities"
     },
     "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },

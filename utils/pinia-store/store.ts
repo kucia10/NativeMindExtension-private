@@ -138,6 +138,9 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
       }
       return !!modelInfo?.vision
     }
+    else if (endpointType === 'openai-compatible') {
+      return !!userConfig.llm.backends.openaiCompatible.vision.get()
+    }
     else {
       return false
     }
