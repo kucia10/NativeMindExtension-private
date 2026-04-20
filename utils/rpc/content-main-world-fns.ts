@@ -98,6 +98,10 @@ export async function checkBackendModelReady(model?: string): Promise<{ backend:
     else if (userConfig.llm.endpointType.get() === 'web-llm') {
       return { backend: true, model: await c2bRpc.hasWebLLMModelInCache('Qwen3-0.6B-q4f16_1-MLC') }
     }
+    else if (userConfig.llm.endpointType.get() === 'openai-compatible') {
+      const connected = await c2bRpc.testOpenAICompatibleConnection()
+      return { backend: connected, model: connected }
+    }
     else {
       throw new UnsupportedEndpointType(userConfig.llm.endpointType.get())
     }

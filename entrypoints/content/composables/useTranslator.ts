@@ -72,8 +72,22 @@ async function _useTranslator() {
       if (!enabled.value) {
         const { status, endpointType } = await llmBackendStatusStore.checkCurrentBackendStatus()
         if (status === 'backend-unavailable') {
-          toast('Failed to connect to Ollama server, please check your Ollama connection', { duration: 2000 })
-          endpointType === 'ollama' ? showSettings({ scrollTarget: `ollama-server-address-section` }) : showSettings({ scrollTarget: `lm-studio-server-address-section` })
+          if (endpointType === 'ollama') {
+            toast('Failed to connect to Ollama server, please check your Ollama connection', { duration: 2000 })
+            showSettings({ scrollTarget: `ollama-server-address-section` })
+          }
+          else if (endpointType === 'lm-studio') {
+            toast('Failed to connect to LM Studio server, please check your LM Studio connection', { duration: 2000 })
+            showSettings({ scrollTarget: `lm-studio-server-address-section` })
+          }
+          else if (endpointType === 'openai-compatible') {
+            toast('Failed to connect to OpenAI-compatible server, please check your connection settings', { duration: 2000 })
+            showSettings({ scrollTarget: `openai-compatible-server-address-section` })
+          }
+          else {
+            toast('Failed to connect to AI backend, please check your connection settings', { duration: 2000 })
+            showSettings()
+          }
           return
         }
         else if (status === 'no-model') {

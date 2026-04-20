@@ -138,7 +138,10 @@
       "get_endpoint": "{endpointType} 가져오기",
       "ollama_select_desc": "전문 개발자 도구",
       "lm_studio_select_desc": "사용하기 쉬운 데스크톱 앱",
-      "unlock_full_power_with": "{endpointType}로 완전한 로컬 AI 성능을 잠금 해제하세요."
+      "unlock_full_power_with": "{endpointType}로 완전한 로컬 AI 성능을 잠금 해제하세요.",
+      "openai_compatible_select_name": "OpenAI-Compatible API",
+      "openai_compatible_select_desc": "Any OpenAI-compatible endpoint",
+      "setup_openai_compatible": "Setup OpenAI-Compatible API"
     },
     "webllm_tutorial": {
       "desc": "브라우저에서 바로 경량 모델(Qwen 0.6B)을 사용해 보세요. 설정 없이 바로 시작할 수 있습니다.",
@@ -181,6 +184,7 @@
       "no_model": "⚠️ 모델 없음",
       "add_model_to_start": "모델을 추가하여 시작하세요",
       "lmstudio_models": "LM Studio 모델 ({count})",
+      "openai_compatible_models": "OpenAI-Compatible Models ({count})",
       "ollama_models": "Ollama 모델 ({count})"
     },
     "ollama": {
@@ -349,6 +353,10 @@
       },
       "ollama": {
         "title": "Ollama 구성"
+      },
+      "openai_compatible": {
+        "title": "Configure OpenAI-Compatible API",
+        "already_installed": "Already have an OpenAI-compatible API endpoint?"
       }
     },
     "delete": "삭제",
@@ -391,7 +399,17 @@
         "reset_to_default": "기본값으로 재설정",
         "reset_to_default_confirm": "{setting}을(를) 기본값으로 재설정하시겠습니까?"
       }
-    }
+    },
+    "openai_compatible": {
+      "server_address": "Server Address",
+      "server_address_desc": "OpenAI-compatible server API endpoint (e.g. http://localhost:11434/v1)",
+      "api_key": "API Key",
+      "api_key_desc": "API key for the server (leave empty if not required)",
+      "model_name": "Model",
+      "model_name_desc": "Select a model from the list or enter a model name manually",
+      "model_name_refresh_hint": "Click refresh to load available models"
+    },
+    "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },
   "context_menu": {
     "quick_actions": {
@@ -410,9 +428,9 @@
     }
   },
   "errors": {
-    "model_not_found": "문제가 발생했습니다! 설정에서 Ollama 연결을 확인하고 다시 시도해 주세요.",
-    "model_request_error": "문제가 발생했습니다! 설정에서 Ollama 연결을 확인하고 다시 시도해 주세요.",
-    "model_request_timeout": "요청 시간이 초과되었습니다. Ollama 연결을 확인하거나, 긴 컨텍스트가 응답 시간에 영향을 미칠 수 있으므로 새 세션 시작을 고려해 주세요.",
+    "model_not_found": "문제가 발생했습니다! 설정에서 {endpointType} 연결을 확인하고 다시 시도해 주세요.",
+    "model_request_error": "문제가 발생했습니다! 설정에서 {endpointType} 연결을 확인하고 다시 시도해 주세요.",
+    "model_request_timeout": "요청 시간이 초과되었습니다. 연결 상태를 확인하거나, 긴 컨텍스트가 응답 시간에 영향을 미칠 수 있으므로 새 세션 시작을 고려해 주세요.",
     "timeout_error": "작업 시간 초과: {message}",
     "unknown_error": "예기치 않은 오류가 발생했습니다: {message}",
     "webllm_not_supported": "WebLLM이 귀하의 기기에서 지원되지 않습니다.",

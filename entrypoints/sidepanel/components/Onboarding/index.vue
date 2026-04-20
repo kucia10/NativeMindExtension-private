@@ -88,9 +88,14 @@ const isShow = computed(() => {
   return onboardingVersion.value !== TARGET_ONBOARDING_VERSION
 })
 
-const onBackendInstalled = async (backend: 'ollama' | 'lm-studio') => {
+const onBackendInstalled = async (backend: 'ollama' | 'lm-studio' | 'openai-compatible') => {
   endpointType.value = backend
-  downloadEndpointType.value = backend
+  if (backend === 'openai-compatible') {
+    // openai-compatible은 모델 다운로더 없이 바로 닫기
+    await close()
+    return
+  }
+  downloadEndpointType.value = backend as 'ollama' | 'lm-studio'
   const modelList = backend === 'ollama' ? await llmBackendStatusStore.updateOllamaModelList() : await llmBackendStatusStore.updateLMStudioModelList()
   if (modelList.length === 0) {
     panel.value = 'model-downloader'
@@ -142,6 +147,8 @@ onMounted(async () => {
     if (ollamaSuccess) return onBackendInstalled('ollama')
     const lmStudioSuccess = await llmBackendStatusStore.updateLMStudioConnectionStatus()
     if (lmStudioSuccess) return onBackendInstalled('lm-studio')
+    const openAICompatibleSuccess = await llmBackendStatusStore.updateOpenAICompatibleConnectionStatus()
+    if (openAICompatibleSuccess) return onBackendInstalled('openai-compatible')
   }
 })
 </script>

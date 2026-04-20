@@ -353,8 +353,9 @@ const onStop = () => {
 
 const ask = async () => {
   if (!allowAsk.value) return
-  chat.ask(userInput.value)
+  const input = userInput.value
   userInput.value = ''
+  await chat.ask(input)
 }
 
 onMounted(async () => {

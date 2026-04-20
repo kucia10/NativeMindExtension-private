@@ -481,6 +481,14 @@ const deleteOllamaModel = async (modelId: string) => {
   await ollamaUtils.deleteModel(modelId)
 }
 
+const testOpenAICompatibleConnection = async (): Promise<boolean> => {
+  return ollamaUtils.testOpenAICompatibleConnection()
+}
+
+const getOpenAICompatibleModelList = async () => {
+  return ollamaUtils.fetchOpenAICompatibleModelList()
+}
+
 const unloadOllamaModel = async (modelId: string) => {
   await ollamaUtils.unloadModel(modelId)
   const start = Date.now()
@@ -676,6 +684,7 @@ async function checkModelReady(modelId: string) {
     const endpointType = userConfig.llm.endpointType.get()
     if (endpointType === 'ollama') return true
     else if (endpointType === 'lm-studio') return true
+    else if (endpointType === 'openai-compatible') return true
     else if (endpointType === 'web-llm') {
       return await hasWebLLMModelInCache(modelId as WebLLMSupportedModel)
     }
@@ -695,6 +704,9 @@ async function initCurrentModel() {
     return false
   }
   else if (endpointType === 'lm-studio') {
+    return false
+  }
+  else if (endpointType === 'openai-compatible') {
     return false
   }
   else if (endpointType === 'web-llm') {
@@ -1123,6 +1135,8 @@ export const backgroundFunctions = {
   deleteOllamaModel,
   pullOllamaModel,
   showOllamaModelDetails,
+  testOpenAICompatibleConnection,
+  getOpenAICompatibleModelList,
   openAndFetchUrlsContent,
   searchWebsites,
   generateObjectFromSchema,

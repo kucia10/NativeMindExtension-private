@@ -163,7 +163,18 @@ async function checkLLMBackendStatus() {
   }
   else if (status === 'backend-unavailable') {
     toast(t('errors.model_request_error'), { duration: 2000 })
-    endpointType === 'ollama' ? showSettings({ scrollTarget: 'ollama-server-address-section' }) : showSettings({ scrollTarget: 'lm-studio-server-address-section' })
+    if (endpointType === 'ollama') {
+      showSettings({ scrollTarget: 'ollama-server-address-section' })
+    }
+    else if (endpointType === 'lm-studio') {
+      showSettings({ scrollTarget: 'lm-studio-server-address-section' })
+    }
+    else if (endpointType === 'openai-compatible') {
+      showSettings({ scrollTarget: 'openai-compatible-server-address-section' })
+    }
+    else {
+      showSettings()
+    }
     emit('close')
     return false
   }

@@ -11,6 +11,7 @@ import { middlewares } from './middlewares'
 import { checkModelSupportThinking } from './ollama'
 import { LMStudioChatLanguageModel } from './providers/lm-studio/chat-language-model'
 import { createOllama } from './providers/ollama'
+import { createOpenAICompatible } from './providers/openai-compatible/ollama-provider'
 import { WebLLMChatLanguageModel } from './providers/web-llm/openai-compatible-chat-language-model'
 import { getReasoningOptionForModel, isGptOssModel } from './reasoning'
 import { isToggleableThinkingModel } from './thinking-models'
@@ -22,10 +23,22 @@ export async function getModelUserConfig(overrides?: { model?: string, endpointT
   const endpointType = overrides?.endpointType ?? userConfig.llm.endpointType.get()
   const model = overrides?.model ?? userConfig.llm.model.get()
 
-  const baseUrl = userConfig.llm.backends[endpointType === 'lm-studio' ? 'lmStudio' : 'ollama'].baseUrl.get()
-  const apiKey = userConfig.llm.apiKey.get()
-  const numCtx = userConfig.llm.backends[endpointType === 'lm-studio' ? 'lmStudio' : 'ollama'].numCtx.get()
-  const enableNumCtx = userConfig.llm.backends[endpointType === 'lm-studio' ? 'lmStudio' : 'ollama'].enableNumCtx.get()
+  let backendKey: 'lmStudio' | 'ollama' | 'openaiCompatible'
+  if (endpointType === 'lm-studio') {
+    backendKey = 'lmStudio'
+  }
+  else if (endpointType === 'openai-compatible') {
+    backendKey = 'openaiCompatible'
+  }
+  else {
+    backendKey = 'ollama'
+  }
+  const baseUrl = userConfig.llm.backends[backendKey].baseUrl.get()
+  const apiKey = endpointType === 'openai-compatible'
+    ? userConfig.llm.backends.openaiCompatible.apiKey.get()
+    : userConfig.llm.apiKey.get()
+  const numCtx = userConfig.llm.backends[backendKey].numCtx.get()
+  const enableNumCtx = userConfig.llm.backends[backendKey].enableNumCtx.get()
   const reasoningPreference = userConfig.llm.reasoning.get()
   const reasoning = getReasoningOptionForModel(reasoningPreference, model)
   if (!model) {
@@ -117,6 +130,12 @@ export async function getModel(options: {
       { supportsStructuredOutputs: true, provider: 'web-llm', defaultObjectGenerationMode: 'json' },
     )
   }
+  else if (endpointType === 'openai-compatible') {
+    model = createOpenAICompatible({
+      baseURL: options.baseUrl,
+      apiKey: options.apiKey,
+    })(options.model)
+  }
   else {
     throw new Error('Unsupported endpoint type ' + endpointType)
   }
@@ -126,7 +145,7 @@ export async function getModel(options: {
   })
 }
 
-export type LLMEndpointType = 'ollama' | 'lm-studio' | 'web-llm'
+export type LLMEndpointType = 'ollama' | 'lm-studio' | 'web-llm' | 'openai-compatible'
 
 export function parseErrorMessageFromChunk(error: unknown): string | null {
   if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string') {

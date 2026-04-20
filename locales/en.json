@@ -54,7 +54,8 @@
       "no_model": "⚠️ No model",
       "add_model_to_start": "Add a model to start",
       "ollama_models": "Ollama Models ({count})",
-      "lmstudio_models": "LM Studio Models ({count})"
+      "lmstudio_models": "LM Studio Models ({count})",
+      "openai_compatible_models": "OpenAI-Compatible Models ({count})"
     },
     "quick_actions": {
       "title": "Customize Quick Actions",
@@ -82,6 +83,10 @@
         "title": "Configure LM Studio",
         "model_management_desc": "Model download, loading, and deletion must be done in the LM Studio desktop app. This only shows current running status.",
         "already_installed": "Already installed and run LM Studio?"
+      },
+      "openai_compatible": {
+        "title": "Configure OpenAI-Compatible API",
+        "already_installed": "Already have an OpenAI-compatible API endpoint?"
       }
     },
     "cache": {
@@ -237,7 +242,17 @@
         "reset_to_default": "Reset to default",
         "reset_to_default_confirm": "Are you sure you want to reset {setting} to default?"
       }
-    }
+    },
+    "openai_compatible": {
+      "server_address": "Server Address",
+      "server_address_desc": "OpenAI-compatible server API endpoint (e.g. http://localhost:11434/v1)",
+      "api_key": "API Key",
+      "api_key_desc": "API key for the server (leave empty if not required)",
+      "model_name": "Model",
+      "model_name_desc": "Select a model from the list or enter a model name manually",
+      "model_name_refresh_hint": "Click refresh to load available models"
+    },
+    "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },
   "chat": {
     "messages": {
@@ -378,7 +393,10 @@
       "browse_more_models": "Browse more models",
       "ollama_select_desc": "Professional Developer Tool",
       "lm_studio_select_desc": "Easy-to-use Desktop App",
-      "unlock_full_power_with": "Unlock full local AI power with {endpointType}."
+      "unlock_full_power_with": "Unlock full local AI power with {endpointType}.",
+      "openai_compatible_select_name": "OpenAI-Compatible API",
+      "openai_compatible_select_desc": "Any OpenAI-compatible endpoint",
+      "setup_openai_compatible": "Setup OpenAI-Compatible API"
     },
     "webllm_tutorial": {
       "title": "Not ready to install? Try it instantly.",

@@ -46,6 +46,23 @@
           {{ t('onboarding.guide.lm_studio_select_desc') }}
         </div>
       </div>
+      <div
+        class="flex items-center justify-between gap-3 min-h-13 py-1 px-4 rounded-lg cursor-pointer border-2 text-[15px]"
+        :class="[selectedEndpointType === 'openai-compatible' ? 'border-border-accent' : 'border-border-strong']"
+        @click="selectedEndpointType = 'openai-compatible'"
+      >
+        <div class="whitespace-nowrap flex items-center gap-2">
+          <div class="size-5 rounded-md flex items-center justify-center overflow-hidden shadow-02 text-black bg-white">
+            <IconOpenAICompatibleLogo class="size-4" />
+          </div>
+          <span class="font-medium text-base">
+            {{ t('onboarding.guide.openai_compatible_select_name') }}
+          </span>
+        </div>
+        <div class="text-[13px] font-semibold text-text-secondary">
+          {{ t('onboarding.guide.openai_compatible_select_desc') }}
+        </div>
+      </div>
       <div>
         <Text
           color="secondary"
@@ -90,25 +107,39 @@
         </li>
       </ul>
       <div class="mt-4">
-        <a
-          class="font-semibold text-sm"
-          :href="downloadUrl"
-          target="_blank"
-          @click="onClickInstall"
-        >
+        <template v-if="selectedEndpointType === 'openai-compatible'">
           <Button
             class="h-10 w-full"
             variant="primary"
+            @click="onClickOpenSettings"
           >
-            {{ t('onboarding.guide.get_endpoint', { endpointType: selectedEndpointName }) }}
+            {{ t('onboarding.guide.setup_openai_compatible') }}
           </Button>
-        </a>
+        </template>
+        <template v-else>
+          <a
+            class="font-semibold text-sm"
+            :href="downloadUrl"
+            target="_blank"
+            @click="onClickInstall"
+          >
+            <Button
+              class="h-10 w-full"
+              variant="primary"
+            >
+              {{ t('onboarding.guide.get_endpoint', { endpointType: selectedEndpointName }) }}
+            </Button>
+          </a>
+        </template>
         <div class="flex flex-col items-center justify-center mt-1">
           <Text
             color="tertiary"
             class="font-normal text-[11px] leading-5"
           >
-            <div class="flex gap-1">
+            <div
+              v-if="selectedEndpointType !== 'openai-compatible'"
+              class="flex gap-1"
+            >
               <span>{{ t('onboarding.guide.already_installed', { endpointType: selectedEndpointName }) }}</span>
               <button
                 class="whitespace-nowrap hover:text-text-primary text-text-link cursor-pointer"
@@ -143,6 +174,7 @@ import { computed, ref, watch } from 'vue'
 
 import IconLMStudioLogo from '@/assets/icons/logo-lm-studio.png?url'
 import IconOllamaLogo from '@/assets/icons/logo-ollama.svg?component'
+import IconOpenAICompatibleLogo from '@/assets/icons/logo-openai-compatible.svg?component'
 import IconTick from '@/assets/icons/tick.svg?component'
 import Button from '@/components/ui/Button.vue'
 import Text from '@/components/ui/Text.vue'
@@ -154,16 +186,17 @@ import { useLLMBackendStatusStore } from '@/utils/pinia-store/store'
 const log = logger.child('BackendSelectionTutorialCard')
 
 const emit = defineEmits<{
-  (event: 'installed', backend: 'ollama' | 'lm-studio'): void
+  (event: 'installed', backend: 'ollama' | 'lm-studio' | 'openai-compatible'): void
   (event: 'settings'): void
 }>()
 const llmBackendStatusStore = useLLMBackendStatusStore()
-const selectedEndpointType = ref<'ollama' | 'lm-studio'>('ollama')
+const selectedEndpointType = ref<'ollama' | 'lm-studio' | 'openai-compatible'>('ollama')
 const { t } = useI18n()
 
 const selectedEndpointName = computed(() => {
   if (selectedEndpointType.value === 'ollama') return 'Ollama'
   else if (selectedEndpointType.value === 'lm-studio') return 'LM Studio'
+  else if (selectedEndpointType.value === 'openai-compatible') return t('onboarding.guide.openai_compatible_select_name')
   else return ''
 })
 const tutorialUrl = computed(() => {
@@ -197,6 +230,11 @@ const reScanOllama = async () => {
     const success = await llmBackendStatusStore.updateLMStudioConnectionStatus()
     log.info('LM Studio test result:', success)
     if (success) emit('installed', 'lm-studio')
+  }
+  else if (selectedEndpointType.value === 'openai-compatible') {
+    const success = await llmBackendStatusStore.updateOpenAICompatibleConnectionStatus()
+    log.info('OpenAI-compatible test result:', success)
+    if (success) emit('installed', 'openai-compatible')
   }
   else {
     throw new Error('Invalid endpoint type')

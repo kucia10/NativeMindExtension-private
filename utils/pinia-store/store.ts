@@ -96,6 +96,11 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
     }
   }
 
+  const openaiCompatibleConnectionStatus = ref<'unconnected' | 'connected'>('unconnected')
+  const openaiCompatibleConnectionStatusLoading = ref(false)
+  const openaiCompatibleModelList = ref<{ id: string, owned_by?: string }[]>([])
+  const openaiCompatibleModelListLoading = ref(false)
+
   const unloadLMStudioModel = async (identifier: string) => {
     await rpc.unloadLMStudioModel(identifier)
     await updateLMStudioModelList()
@@ -162,6 +167,11 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
         model: m.modelKey,
         name: m.displayName ?? m.modelKey,
       })),
+      ...openaiCompatibleModelList.value.map((m) => ({
+        backend: 'openai-compatible' as const,
+        model: m.id,
+        name: m.id,
+      })),
     ]
   })
 
@@ -203,6 +213,14 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
       }
       else { status = 'backend-unavailable' }
     }
+    else if (endpointType === 'openai-compatible') {
+      const backendStatus = await updateOpenAICompatibleConnectionStatus()
+      if (backendStatus) {
+        // OpenAI-compatible uses any valid model name, so we just need the backend to be connected
+        status = 'ok'
+      }
+      else { status = 'backend-unavailable' }
+    }
     return { modelList, commonModel: commonModelConfig.get(), status, endpointType }
   }
 
@@ -213,6 +231,26 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
     // WebLLM doesn't need updating as it uses static SUPPORTED_MODELS
     await Promise.allSettled([updateOllamaModelList(), updateLMStudioModelList()])
     return modelList.value
+  }
+
+  const updateOpenAICompatibleConnectionStatus = async () => {
+    openaiCompatibleConnectionStatusLoading.value = true
+    const success = await rpc.testOpenAICompatibleConnection().catch(() => false)
+    openaiCompatibleConnectionStatus.value = success ? 'connected' : 'unconnected'
+    openaiCompatibleConnectionStatusLoading.value = false
+    return success
+  }
+
+  const updateOpenAICompatibleModelList = async () => {
+    openaiCompatibleModelListLoading.value = true
+    const result = await rpc.getOpenAICompatibleModelList().catch(() => ({ models: [] }))
+    openaiCompatibleModelList.value = result.models
+    openaiCompatibleModelListLoading.value = false
+    return result.models
+  }
+
+  const clearOpenAICompatibleModelList = () => {
+    openaiCompatibleModelList.value = []
   }
 
   return {
@@ -235,6 +273,14 @@ export const useLLMBackendStatusStore = defineStore('llm-backend-status', () => 
     deleteOllamaModel,
     clearLMStudioModelList,
     updateLMStudioConnectionStatus,
+    // OpenAI-Compatible
+    openaiCompatibleConnectionStatus,
+    openaiCompatibleConnectionStatusLoading,
+    openaiCompatibleModelList,
+    openaiCompatibleModelListLoading,
+    updateOpenAICompatibleConnectionStatus,
+    updateOpenAICompatibleModelList,
+    clearOpenAICompatibleModelList,
     // Common
     checkCurrentModelSupportVision,
     checkModelSupportThinking,

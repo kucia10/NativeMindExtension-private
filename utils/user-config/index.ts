@@ -119,6 +119,12 @@ export async function _getUserConfig() {
           enableNumCtx: await new Config('llm.backends.lmStudio.enableNumCtx').default(enableNumCtx).build(),
           baseUrl: await new Config('llm.backends.lmStudio.baseUrl').default('http://localhost:1234/api').build(),
         },
+        openaiCompatible: {
+          numCtx: await new Config('llm.backends.openaiCompatible.numCtx').default(1024 * 8).build(),
+          enableNumCtx: await new Config('llm.backends.openaiCompatible.enableNumCtx').default(enableNumCtx).build(),
+          baseUrl: await new Config('llm.backends.openaiCompatible.baseUrl').default('').build(),
+          apiKey: await new Config('llm.backends.openaiCompatible.apiKey').default('').build(),
+        },
       },
     },
     browserAI: {
@@ -209,6 +215,9 @@ export async function _getUserConfig() {
         },
         lmStudioConfig: {
           open: await new Config('settings.blocks.lmStudioConfig.open').default(true).build(),
+        },
+        openaiCompatibleConfig: {
+          open: await new Config('settings.blocks.openaiCompatibleConfig.open').default(true).build(),
         },
       },
     },

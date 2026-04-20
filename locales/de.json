@@ -138,7 +138,10 @@
       "get_endpoint": "Erhalte {endpointType}",
       "lm_studio_select_desc": "Benutzerfreundliche Desktop-Anwendung",
       "ollama_select_desc": "Professionelles Entwicklertool",
-      "unlock_full_power_with": "Entfesseln Sie die volle lokale KI-Leistung mit {endpointType}."
+      "unlock_full_power_with": "Entfesseln Sie die volle lokale KI-Leistung mit {endpointType}.",
+      "openai_compatible_select_name": "OpenAI-Compatible API",
+      "openai_compatible_select_desc": "Any OpenAI-compatible endpoint",
+      "setup_openai_compatible": "Setup OpenAI-Compatible API"
     },
     "webllm_tutorial": {
       "desc": "Verwenden Sie ein leichtes Modell (QWEN 0,6B) direkt in Ihrem Browser - kein Setup, kein Warten.",
@@ -181,7 +184,8 @@
       "no_model": "⚠️ Kein Modell",
       "add_model_to_start": "Fügen Sie ein Modell hinzu, um zu beginnen",
       "ollama_models": "Ollama Modelle ({count})",
-      "lmstudio_models": "LM Studio Modelle ({count})"
+      "lmstudio_models": "LM Studio Modelle ({count})",
+      "openai_compatible_models": "OpenAI-Compatible Models ({count})"
     },
     "ollama": {
       "already_installed": "Haben Sie Ollama bereits installiert und gestartet?",
@@ -349,6 +353,10 @@
       },
       "ollama": {
         "title": "Ollama konfigurieren"
+      },
+      "openai_compatible": {
+        "title": "Configure OpenAI-Compatible API",
+        "already_installed": "Already have an OpenAI-compatible API endpoint?"
       }
     },
     "get_lm_studio": "Holen Sie sich LM Studio",
@@ -391,7 +399,17 @@
         "reset_to_default": "Auf Standard zurücksetzen",
         "reset_to_default_confirm": "Sind Sie sicher, dass Sie {setting} auf die Standardwerte zurücksetzen möchten?"
       }
-    }
+    },
+    "openai_compatible": {
+      "server_address": "Server Address",
+      "server_address_desc": "OpenAI-compatible server API endpoint (e.g. http://localhost:11434/v1)",
+      "api_key": "API Key",
+      "api_key_desc": "API key for the server (leave empty if not required)",
+      "model_name": "Model",
+      "model_name_desc": "Select a model from the list or enter a model name manually",
+      "model_name_refresh_hint": "Click refresh to load available models"
+    },
+    "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },
   "context_menu": {
     "quick_actions": {

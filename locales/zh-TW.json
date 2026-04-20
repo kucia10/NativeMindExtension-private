@@ -138,7 +138,10 @@
       "get_endpoint": "取得 {endpointType}",
       "lm_studio_select_desc": "易於使用的桌面應用程式",
       "ollama_select_desc": "專業開發者工具",
-      "unlock_full_power_with": "使用 {endpointType} 解鎖完整的本地 AI 功能。"
+      "unlock_full_power_with": "使用 {endpointType} 解鎖完整的本地 AI 功能。",
+      "openai_compatible_select_name": "OpenAI-Compatible API",
+      "openai_compatible_select_desc": "Any OpenAI-compatible endpoint",
+      "setup_openai_compatible": "Setup OpenAI-Compatible API"
     },
     "webllm_tutorial": {
       "desc": "在瀏覽器中使用輕巧的模型（QWEN 0.6B） - 無需設置，無需等待。",
@@ -181,7 +184,8 @@
       "no_model": "⚠️ 沒有模型",
       "add_model_to_start": "新增模型以開始",
       "ollama_models": "Ollama 模型 ({count})",
-      "lmstudio_models": "LM Studio 模型 ({count})"
+      "lmstudio_models": "LM Studio 模型 ({count})",
+      "openai_compatible_models": "OpenAI-Compatible Models ({count})"
     },
     "ollama": {
       "already_installed": "已經安裝並執行Ollama？",
@@ -349,6 +353,10 @@
       },
       "ollama": {
         "title": "配置 Ollama"
+      },
+      "openai_compatible": {
+        "title": "Configure OpenAI-Compatible API",
+        "already_installed": "Already have an OpenAI-compatible API endpoint?"
       }
     },
     "get_lm_studio": "取得 LM Studio",
@@ -391,7 +399,17 @@
         "reset_to_default": "重置為預設",
         "reset_to_default_confirm": "您確定要將 {setting} 重設為預設值嗎？"
       }
-    }
+    },
+    "openai_compatible": {
+      "server_address": "Server Address",
+      "server_address_desc": "OpenAI-compatible server API endpoint (e.g. http://localhost:11434/v1)",
+      "api_key": "API Key",
+      "api_key_desc": "API key for the server (leave empty if not required)",
+      "model_name": "Model",
+      "model_name_desc": "Select a model from the list or enter a model name manually",
+      "model_name_refresh_hint": "Click refresh to load available models"
+    },
+    "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },
   "context_menu": {
     "quick_actions": {

@@ -4,6 +4,7 @@ import { OllamaModelInfo } from '@/types/ollama-models'
 import logger from '@/utils/logger'
 
 import { getUserConfig } from '../user-config'
+import { fetchModelList as fetchOpenAICompatibleModelList, testConnection as testOpenAICompatibleConnection } from './providers/openai-compatible/connection'
 
 async function getOllamaClient() {
   const userConfig = await getUserConfig()
@@ -136,6 +137,8 @@ export async function checkModelSupportThinking(modelId: string): Promise<boolea
     return false
   }
 }
+
+export { fetchOpenAICompatibleModelList, testOpenAICompatibleConnection }
 
 export async function getLocalModelListWithCapabilities() {
   try {

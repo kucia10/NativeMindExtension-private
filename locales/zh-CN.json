@@ -54,7 +54,8 @@
       "no_model": "⚠️ 无模型",
       "add_model_to_start": "添加模型以开始",
       "ollama_models": "Ollama 模型 ({count})",
-      "lmstudio_models": "LM Studio 模型 ({count})"
+      "lmstudio_models": "LM Studio 模型 ({count})",
+      "openai_compatible_models": "OpenAI-Compatible Models ({count})"
     },
     "quick_actions": {
       "title": "自定义快捷操作",
@@ -195,6 +196,10 @@
       },
       "ollama": {
         "title": "配置 Ollama"
+      },
+      "openai_compatible": {
+        "title": "Configure OpenAI-Compatible API",
+        "already_installed": "Already have an OpenAI-compatible API endpoint?"
       }
     },
     "get_lm_studio": "获取 LM Studio",
@@ -237,7 +242,17 @@
         "reset_to_default": "重置为默认",
         "reset_to_default_confirm": "您确定要将 {setting} 重置为默认值吗？"
       }
-    }
+    },
+    "openai_compatible": {
+      "server_address": "Server Address",
+      "server_address_desc": "OpenAI-compatible server API endpoint (e.g. http://localhost:11434/v1)",
+      "api_key": "API Key",
+      "api_key_desc": "API key for the server (leave empty if not required)",
+      "model_name": "Model",
+      "model_name_desc": "Select a model from the list or enter a model name manually",
+      "model_name_refresh_hint": "Click refresh to load available models"
+    },
+    "webllm_desc_openai_compatible": "You are now using WebLLM: qwen3:0.6b for quick tryout. For full model support and better performance, please configure an OpenAI-compatible API endpoint."
   },
   "chat": {
     "messages": {
@@ -378,7 +393,10 @@
       "get_endpoint": "获取 {endpointType}",
       "lm_studio_select_desc": "易于使用的桌面应用程序",
       "ollama_select_desc": "专业开发者工具",
-      "unlock_full_power_with": "使用 {endpointType} 释放本地 AI 的全部潜力。"
+      "unlock_full_power_with": "使用 {endpointType} 释放本地 AI 的全部潜力。",
+      "openai_compatible_select_name": "OpenAI-Compatible API",
+      "openai_compatible_select_desc": "Any OpenAI-compatible endpoint",
+      "setup_openai_compatible": "Setup OpenAI-Compatible API"
     },
     "webllm_tutorial": {
       "desc": "在浏览器中使用轻量级模型（Qwen 0.6B）- 无需设置，即刻体验。",

@@ -206,6 +206,7 @@ const modelOptions = computed(() => {
   const ollamaModels = modelList.value.filter((model) => model.backend === 'ollama')
   const lmStudioModels = modelList.value.filter((model) => model.backend === 'lm-studio')
   const webllmModels = modelList.value.filter((model) => model.backend === 'web-llm')
+  const openaiCompatibleModels = modelList.value.filter((model) => model.backend === 'openai-compatible')
 
   const makeModelOptions = (model: typeof modelList.value[number]) => ({ type: 'option' as const, id: `${model.backend}#${model.model}`, label: model.name, model: { backend: model.backend, id: model.model } })
   const makeHeader = (label: string) => ({ type: 'header' as const, id: `header-${label}`, label, selectable: false })
@@ -224,6 +225,12 @@ const modelOptions = computed(() => {
       options.push(
         makeHeader(t('settings.models.lmstudio_models', { count: lmStudioModels.length })),
         ...lmStudioModels.map((model) => makeModelOptions(model)),
+      )
+    }
+    if (openaiCompatibleModels.length) {
+      options.push(
+        makeHeader(t('settings.models.openai_compatible_models', { count: openaiCompatibleModels.length })),
+        ...openaiCompatibleModels.map((model) => makeModelOptions(model)),
       )
     }
     return options
